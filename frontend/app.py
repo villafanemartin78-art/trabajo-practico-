@@ -10,4 +10,4 @@ def registration():
     return render_template('hola.html')
                            
 if __name__ == '__main__':
-    app.run(port= 5001 , debug=True)
+    app.run(port= 5002 , debug=True)
