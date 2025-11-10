@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Start your development with LeadMark landing page.">
     <meta name="author" content="Devcrud">
-    <title>  TITULO </title>
+    <title>  Nordika Cabins </title>
     <!-- font icons -->
     <link rel="stylesheet" href="static/vendors/themify-icons/css/themify-icons.css">
     <!-- Bootstrap + LeadMark main styles -->
@@ -16,7 +16,7 @@
     <!-- page Navigation -->
     <nav class="navbar custom-navbar navbar-expand-md navbar-light fixed-top" data-spy="affix" data-offset-top="10">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a style="scroll-behavior: smooth;" class="navbar-brand" href="#">
                 <img src="static/imgs/logo.svg" alt="">
             </a>
             <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,23 +25,19 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">                     
                     <li class="nav-item">
-                        <a class="nav-link" href="#service">Servicio
-                        </a>
+                        <a class="nav-link" href="#about">Quienes Somos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#about">SOBRE NOSOTROS</a>
+                        <a class="nav-link" href="#portfolio">Cabañas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#portfolio">Portafolio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#blog">hacia los cuadros</a>
+                        <a class="nav-link" href="#blog">Experiencias</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#contact">Contactos</a>
                     </li>
                     <li class="nav-item">
-                        <a href="hola.html" class="ml-4 nav-link btn btn-primary btn-sm rounded">Components</a>
+                        <a href="hola.html" class="ml-4 nav-link btn btn-primary btn-sm rounded">Reservar Cabaña</a>
                     </li>
                 </ul>
             </div>
@@ -50,10 +46,10 @@
     <!-- End Of Second Navigation -->
 
     <!-- Page Header -->
-    <header class="header">
+    <header class="header" id="header" style="transition: background-image 1s;">
         <div class="overlay">
-            <h1 class="subtitle">TITULO PRINCIPAL</h1>
-            <h1 class="title">2DO TITULO</h1>  
+            <h1 class="subtitle">Diseño y Calma</h1>
+            <h1 class="title">Nordika Cabins</h1>  
         </div>  
         <div class="shape">
             <svg viewBox="0 0 1500 200">
@@ -64,94 +60,72 @@
     </header>
     <!-- End Of Page Header -->
 
+<!-- About Section -->
+<section class="section" id="about">
+    <div class="container d-flex align-items-center">
+        <div class="about-text">
+            <h1 id="about-title">Sobre Nosotros</h1>
+            <h2 id="about-subtitle">Conoce más sobre nuestra historia y misión...</h2>
+            <h5 id="about-description">En Nordika Cabins, nos especializamos en el alquiler de cabañas modernas en entornos naturales, ofreciendo una experiencia única de descanso y confort. Desde nuestra fundación en 2015, hemos crecido ofreciendo cabañas de diseño contemporáneo y servicios de alta calidad, creando espacios ideales para quienes buscan desconectar y disfrutar de la naturaleza sin renunciar al lujo y la comodidad.
+                                    Nuestra historia comenzó con un pequeño grupo de visionarios que soñaban con ofrecer un alojamiento único. Hoy, somos una empresa reconocida por la calidad de nuestras cabañas y el servicio excepcional que brindamos a nuestros huéspedes.</h5>
+        </div>
+        <div class="about-image">
+            <img src="static/imgs/about-image.jpg" alt="Descripción de la imagen" class="img-fluid">
+        </div>
+    </div>
+</section>
+<!-- End OF About Section -->
+
     <!-- Service Section -->
     <section  id="service" class="section pt-0">
         <div class="container">
-            <h6 class="section-title text-center">LINEA DE SERVICIO</h6>
-            <h6 class="section-subtitle text-center mb-5 pb-3">ABAJO DE  SERVICIO</h6>
+            <h6 class="section-title text-center" id="service-title">¡Alquilar una cabaña con Nordika Cabins es más facil de lo que imaginás!</h6>
             <!-- HAY MUCHAS CLASS NAME CAMBIAMOS TODO POR ID???-->
             <div class="row">
                 <div class="col-md-4">
                     <div class="card mb-4 mb-md-0">
                         <div class="card-body">
-                            <small class="text-primary font-weight-bold">01</small>
-                            <h5 class="card-title mt-3"> PRIMER CUADRO<h5>
-                            <p class="mb-0"> INFO DEL CUADRO</p>
+                            <small class="text-primary font-weight-bold" style="font-size:24px">1</small>
+                            <h5 class="card-title mt-3"> Busca y elige tu cabaña</h5>
+                            <p class="mb-0">Visita nuestra página web, donde encontrarás una variedad de cabañas en destinos exclusivos. Explora nuestras opciones y elige la que más te guste según tus fechas y necesidades.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card mb-4 mb-md-0">
                         <div class="card-body">
-                            <small class="text-primary font-weight-bold">02</small>
-                            <h5 class="card-title mt-3">SEGUNDO CUADRO<h5>
-                            <p class="mb-0">INFO CUADRO</p>
+                            <small class="text-primary font-weight-bold" style="font-size:24px">2</small>
+                            <h5 class="card-title mt-3">Reserva en minutos<h5>
+                            <p class="mb-0">Una vez que hayas elegido tu cabaña, simplemente selecciona las fechas de tu estadía. Completa tu información en nuestra plataforma segura y ¡listo! Tu reserva estará confirmada en minutos.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card mb-4 mb-md-0">
                         <div class="card-body">
-                            <small class="text-primary font-weight-bold">03</small>
-                            <h5 class="card-title mt-3">TERCER CUADRO<h5>
-                            <p class="mb-0">INFO DEL TERCER CUADRO</p>
+                            <small class="text-primary font-weight-bold" style="font-size:24px">3</small>
+                            <h5 class="card-title mt-3">Disfruta de tu experiencia</h5>
+                            <p class="mb-0">Al llegar a tu cabaña, todo estará preparado para tu comodidad. Solo tienes que relajarte y disfrutar del paisaje, la tranquilidad y las comodidades que hemos preparado para ti.</p>
                         </div>
                     </div>
                 </div>              
             </div>
+            <h6 class="section-subtitle text-center mb-5 pb-3" id="service-footer">¡Así de rápido y fácil es disfrutar de una experiencia única con Nordika Cabins! <br>
+¡Reserva hoy mismo y comienza tu escapada!</h6>
         </div>
     </section>
     <!-- End OF Service Section -->
 
-    <!-- About Section -->
-    <section class="section" id="about">
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-md-6 pr-md-5 mb-4 mb-md-0">
-                    <h6 class="section-title mb-0">INFORMACION 1</h6>
-                    <h6 class="section-subtitle mb-4">INFORMACION 2</h6>
-                    <p >INFORMACION 3</p>
-                    <img src="static/imgs/about.jpg" alt="" class="w-100 mt-3 shadow-sm">
-                </div>
-                <div class="col-md-6 pl-md-5">
-                    <div class="row">
-                        <div class="col-6">
-                            <img src="static/imgs/about-1.jpg" alt="" class="w-100 shadow-sm">
-                        </div>
-                        <div class="col-6">
-                            <img src="static/imgs/about-2.jpg" alt="" class="w-100 shadow-sm">
-                        </div>
-                        <div class="col-12 mt-4">
-                            <p>INFORMACION 4</p>
-                            <p><b>INFORMACION 5</b><br>
-                            </p>
-                            <p>INFORMACION 6</p>
-                        </div>
-                    </div>
-                </div>
-            </div>              
-        </div>
-    </section>
-    <!-- End OF About Section -->
-
     <!-- Portfolio Section -->
     <section id="portfolio" class="section portfolio-section">
         <div class="container">
-            <h6 class="section-title text-center">PORTAFOLIO</h6>
-            <h6 class="section-subtitle mb-5 text-center">ABAJO DE PORTAFOLIO</h6>
+            <h6 class="section-title text-center">Nuestras Cabañas</h6>
+            <h6 class="section-subtitle mb-5 text-center">Espacios diseñados para que te desconectes y disfrutes de la tranquilidad en cada rincón.</h6>
             <div class="filters">
-                <a href="#" data-filter=".new" class="active">A
-                    
-                </a>
-                <a href="#" data-filter=".advertising">B
-                    
-                </a>
-                <a href="#" data-filter=".branding">C
-                    
-                </a>
-                <a href="#" data-filter=".web">D
-                   
-                </a>
+                <a href="#" data-filter=".new" class="active">Mirador del Sol</a>
+                <a href="#" data-filter=".advertising">Bosque Vivo</a>
+                <a href="#" data-filter=".branding">Rincón Lunar</a>
+                <a href="#" data-filter=".web">Río Nativo</a>
             </div>
             <div class="portfolio-container"> 
                 <div class="col-md-6 col-lg-4 web new">
@@ -323,15 +297,15 @@
     <!-- Blog Section -->
     <section class="section" id="blog">
         <div class="container">
-            <h6 class="section-title mb-0 text-center">INFORMACION 7</h6>
-            <h6 class="section-subtitle mb-5 text-center">INFORMACION 8</h6>
+            <h6 class="section-title mb-0 text-center">Experiencias Incluidas</h6>
+            <h6 class="section-subtitle mb-5 text-center">con la compra de uno de los siguientes paquetes.</h6>
 
             <div class="row">
                 <div class="col-md-4">
                     <div class="card border-0 mb-4">
                         <img src="static/imgs/blog-1.jpg" alt="" class="card-img-top w-100">
                         <div class="card-body">                         
-                            <h6 class="card-title">TITULO CUADRO IZQUIERDA</h6>
+                            <h6 class="card-title">PAQUETE 1</h6>
                             <p>INFO CUADRO IZQUIERDA </p>
                             <a href="javascript:void(0)" class="small text-muted">INFORMACION DEL ARTICULO</a>
                         </div>
@@ -341,7 +315,7 @@
                     <div class="card border-0 mb-4">
                         <img src="static/imgs/blog-2.jpg" alt="" class="card-img-top w-100">
                         <div class="card-body">                         
-                            <h6 class="card-title">TITULO CUADRO MEDIO</h5>
+                            <h6 class="card-title">PAQUETE 2</h6>
                             <p>INFORMACION CUADRO MEDIO</p>
                             <a href="javascript:void(0)" class="small text-muted">INFORMACION DEL ARTICULO</a>
                         </div>
@@ -351,7 +325,7 @@
                     <div class="card border-0 mb-4">
                         <img src="static/imgs/blog-3.jpg" alt="" class="card-img-top w-100">
                         <div class="card-body">                         
-                            <h6 class="card-title">TITULO CUADRO DERECHO</h6>
+                            <h6 class="card-title">PAQUETE 3</h6>
                             <p>INFO DE CUADRO DERECHO</p>
                             <a href="javascript:void(0)" class="small text-muted">INFORMACION DEL ARTICULO</a>
                         </div>

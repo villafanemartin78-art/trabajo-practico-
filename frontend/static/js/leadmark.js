@@ -14,7 +14,7 @@
 
 // smooth scroll
 $(document).ready(function(){
-    $(".navbar .nav-link").on('click', function(event) {
+    $(".navbar .nav-link, .navbar-brand").on('click', function(event) {
 
         if (this.hash !== "") {
 
@@ -54,3 +54,20 @@ $(window).on("load", function() {
         }), !1
     })
 })
+
+
+// change header background automatically
+$(document).ready(function(){
+    var images = [
+        'static/imgs/header1.jpg',
+        'static/imgs/header2.jpg',
+        'static/imgs/header3.jpg',
+        'static/imgs/header.jpg'
+    ];
+    var index = 0;
+    setInterval(function(){
+        index = (index + 1) % images.length;
+        $('.header').css('background-image', 'url(' + images[index] + ')');
+    }, 6500); // Change image every 6.5 seconds
+});
+

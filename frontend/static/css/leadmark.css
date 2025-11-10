@@ -11496,7 +11496,7 @@ textarea.form-control {
 .header.components-header {
   max-height: 450px !important;
   height: 450px;
-  dispaly: none;
+  display: none;
   background-position: center -140px;
 }
 
@@ -11747,4 +11747,61 @@ textarea.form-control {
   left: 50%;
   opacity: 1;
   visibility: visible;
+}
+
+#about {
+  text-align: center;
+  background: #f5f8fc;
+  border-radius: 200px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-top: 100px;
+  padding-left:20px;
+  padding-right:20px;
+}
+#service {
+  text-align: center;
+  background: #f5f8fc;
+  border-radius: 200px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  padding-bottom: 30px;
+}
+
+#service-title {
+  padding-bottom: 10px;
+}
+
+#service-footer {
+  padding-top: 30px;
+}
+
+#about-title {
+  font-style: oblique;
+  font-size: calc(20px + (30 - 20) * ((100vw - 320px) / (1200 - 320)));
+  padding-bottom: 7px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#about-description {
+  padding-top: 20px;
+  font-weight: 400;
+}
+
+.about-text {
+    flex: 1; /* Toma el espacio disponible */
+    margin-right: 20px;
+}
+
+.about-image {
+    flex: 0 0 auto; /* No crecer ni encoger */
+    margin-left: 20px; /* Espacio entre texto e imagen */
+}
+
+.about-image img {
+    max-width: 100%; /* Asegura que la imagen no exceda el contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+    border-radius: 10px; /* Añade bordes redondeados a la imagen */
 }
