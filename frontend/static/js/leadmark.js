@@ -58,17 +58,20 @@ $(window).on("load", function() {
 
 // change header background automatically
 $(document).ready(function(){
-    var images = [
-        'static/imgs/header1.jpg',
-        'static/imgs/header2.jpg',
-        'static/imgs/header3.jpg',
-        'static/imgs/rincon-lunar-6.jpg'
-    ];
-    var index = 0;
-    setInterval(function(){
-        index = (index + 1) % images.length;
-        $('.header').css('background-image', 'url(' + images[index] + ')');
-    }, 4500); // Change image every 4.5 seconds
+    // Verifica si la variable disableChangeHeader está definida y es true
+    if (typeof disableChangeHeader === 'undefined' || !disableChangeHeader) {
+        var images = [
+            'static/imgs/header1.jpg',
+            'static/imgs/header2.jpg',
+            'static/imgs/header3.jpg',
+            'static/imgs/rincon-lunar-6.jpg'
+        ];
+        var index = 0;
+        setInterval(function(){
+            index = (index + 1) % images.length;
+            $('.header').css('background-image', 'url(' + images[index] + ')');
+        }, 4500); // Change image every 4.5 seconds
+    }
 });
 
 // Carrusel infinito con soporte táctil/arrastre mejorado
@@ -191,6 +194,139 @@ $(document).ready(function(){
                 }
             }
         }
+    });
+});
+
+// Carrusel de imágenes de cabañas
+$(document).ready(function() {
+    $('.cabin-carousel').each(function() {
+        var $carousel = $(this);
+        var $track = $carousel.find('.cabin-carousel-track');
+        var $items = $carousel.find('.cabin-carousel-item');
+        var cabinSlug = $carousel.data('cabin');
+        var $prevBtn = $('.cabin-carousel-prev[data-cabin="' + cabinSlug + '"]');
+        var $nextBtn = $('.cabin-carousel-next[data-cabin="' + cabinSlug + '"]');
+        
+        var currentIndex = 0;
+        var itemWidth = 0;
+        var gap = 20;
+        var visibleItems = 3;
+        var totalItems = $items.length;
+        var maxIndex = Math.max(0, totalItems - visibleItems);
+        
+        var isDragging = false;
+        var startX = 0;
+        var currentX = 0;
+        var startOffset = 0;
+        
+        function updateDimensions() {
+            var carouselWidth = $carousel.width();
+            if (window.innerWidth <= 576) {
+                visibleItems = 1;
+            } else if (window.innerWidth <= 992) {
+                visibleItems = 2;
+            } else {
+                visibleItems = 3;
+            }
+            itemWidth = (carouselWidth - (gap * (visibleItems - 1))) / visibleItems;
+            maxIndex = Math.max(0, totalItems - visibleItems);
+            goToIndex(Math.min(currentIndex, maxIndex), true);
+        }
+        
+        function goToIndex(index, instant) {
+            currentIndex = Math.max(0, Math.min(index, maxIndex));
+            var offset = -(currentIndex * (itemWidth + gap));
+            
+            if (instant) {
+                $track.css('transition', 'none');
+            } else {
+                $track.css('transition', 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)');
+            }
+            
+            $track.css('transform', 'translateX(' + offset + 'px)');
+            
+            // Actualizar estado de botones
+            $prevBtn.prop('disabled', currentIndex === 0);
+            $nextBtn.prop('disabled', currentIndex >= maxIndex);
+        }
+        
+        // Navegación con botones
+        $prevBtn.on('click', function() {
+            goToIndex(currentIndex - 1, false);
+        });
+        
+        $nextBtn.on('click', function() {
+            goToIndex(currentIndex + 1, false);
+        });
+        
+        // Navegación con mouse/touch - inicio
+        $carousel.on('mousedown touchstart', function(e) {
+            isDragging = true;
+            startX = e.type === 'mousedown' ? e.pageX : e.originalEvent.touches[0].pageX;
+            currentX = startX;
+            
+            var transform = $track.css('transform');
+            if (transform !== 'none') {
+                var matrix = transform.match(/matrix.*\((.+)\)/)[1].split(', ');
+                startOffset = parseFloat(matrix[4]);
+            } else {
+                startOffset = 0;
+            }
+            
+            $track.css('transition', 'none');
+            $carousel.css('cursor', 'grabbing');
+            e.preventDefault();
+        });
+        
+        // Navegación con mouse/touch - movimiento
+        $(document).on('mousemove touchmove', function(e) {
+            if (!isDragging) return;
+            
+            currentX = e.type === 'mousemove' ? e.pageX : e.originalEvent.touches[0].pageX;
+            var diff = currentX - startX;
+            var newOffset = startOffset + diff;
+            
+            // Límites
+            var minOffset = -(maxIndex * (itemWidth + gap));
+            var maxOffset = 0;
+            
+            // Aplicar resistencia en los bordes
+            if (newOffset > maxOffset) {
+                newOffset = maxOffset + (newOffset - maxOffset) * 0.3;
+            } else if (newOffset < minOffset) {
+                newOffset = minOffset + (newOffset - minOffset) * 0.3;
+            }
+            
+            $track.css('transform', 'translateX(' + newOffset + 'px)');
+        });
+        
+        // Navegación con mouse/touch - fin
+        $(document).on('mouseup touchend', function(e) {
+            if (!isDragging) return;
+            
+            isDragging = false;
+            $carousel.css('cursor', 'grab');
+            
+            var diff = currentX - startX;
+            var threshold = itemWidth * 0.2; // 20% del ancho de un item
+            
+            if (Math.abs(diff) > threshold) {
+                if (diff > 0) {
+                    // Arrastró hacia la derecha
+                    goToIndex(currentIndex - 1, false);
+                } else {
+                    // Arrastró hacia la izquierda
+                    goToIndex(currentIndex + 1, false);
+                }
+            } else {
+                // No superó el threshold, volver a la posición actual
+                goToIndex(currentIndex, false);
+            }
+        });
+        
+        // Inicializar
+        updateDimensions();
+        $(window).on('resize', updateDimensions);
     });
 });
 

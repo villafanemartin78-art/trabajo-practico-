@@ -2,62 +2,73 @@ from flask import Flask, redirect, url_for, render_template, request
 
 app = Flask(__name__)
 
-@app.route('/')
-def index():
-    cabins = [
-        {
-            "name": "Mirador del Sol",
-            "slug": "mirador-sol",
-            "images": [
-                {"src": "/imgs/mirador-sol-1.jpg", "title": "Mirador del Sol", "subtitle": "Vista panorámica"},
-                {"src": "/imgs/mirador-sol-2.jpg", "title": "Mirador del Sol", "subtitle": "Interior cálido"},
-                {"src": "/imgs/mirador-sol-3.jpg", "title": "Mirador del Sol", "subtitle": "Terraza elevada"},
-                {"src": "/imgs/mirador-sol-4.jpg", "title": "Mirador del Sol", "subtitle": "Piscina privada"},
-                {"src": "/imgs/mirador-sol-5.jpg", "title": "Mirador del Sol", "subtitle": "Dormitorio principal"},
-                {"src": "/imgs/mirador-sol-6.jpg", "title": "Mirador del Sol", "subtitle": "Dormitorio secundario"},
-                {"src": "/imgs/mirador-sol-7.jpg", "title": "Mirador del Sol", "subtitle": "Baño moderno"},
-                {"src": "/imgs/mirador-sol-8.jpg", "title": "Mirador del Sol", "subtitle": "Cocina equipada"}
-            ]
-        },
-        {
-            "name": "Bosque Vivo",
-            "slug": "bosque-vivo",
-            "images": [
-                {"src": "/imgs/bosque-vivo-1.jpg", "title": "Bosque Vivo", "subtitle": "Rodeada de árboles"},
-                {"src": "/imgs/bosque-vivo-2.jpg", "title": "Bosque Vivo", "subtitle": "Luz natural"},
-                {"src": "/imgs/bosque-vivo-3.jpg", "title": "Bosque Vivo", "subtitle": "Patio acogedor"},
-                {"src": "/imgs/bosque-vivo-4.jpg", "title": "Bosque Vivo", "subtitle": "Cocina rústica"},
-                {"src": "/imgs/bosque-vivo-5.jpg", "title": "Bosque Vivo", "subtitle": "Dormitorio principal"},
-                {"src": "/imgs/bosque-vivo-6.jpg", "title": "Bosque Vivo", "subtitle": "Baño rústico"}
-            ]
-        },
-        {
-            "name": "Rincón Lunar",
-            "slug": "rincon-lunar",
-            "images": [
-                {"src": "/imgs/rincon-lunar-1.jpg", "title": "Rincón Lunar", "subtitle": "Cielo nocturno"},
-                {"src": "/imgs/rincon-lunar-2.jpg", "title": "Rincón Lunar", "subtitle": "Interior acogedor"},
-                {"src": "/imgs/rincon-lunar-3.jpg", "title": "Rincón Lunar", "subtitle": "Cocina moderna"},
-                {"src": "/imgs/rincon-lunar-4.jpg", "title": "Rincón Lunar", "subtitle": "Dormitorio principal"},
-                {"src": "/imgs/rincon-lunar-5.jpg", "title": "Rincón Lunar", "subtitle": "Baño elegante"},
-                {"src": "/imgs/rincon-lunar-6.jpg", "title": "Rincón Lunar", "subtitle": "Piscina nocturna"}
-            ]
-        },
-        {
-            "name": "Río Nativo",
-            "slug": "rio-nativo",
-            "images": [
-                {"src": "/imgs/rio-nativo-1.jpg", "title": "Río Nativo", "subtitle": "Junto al agua"},
-                {"src": "/imgs/rio-nativo-2.jpg", "title": "Río Nativo", "subtitle": "Deck exterior"},
-                {"src": "/imgs/rio-nativo-3.jpg", "title": "Río Nativo", "subtitle": "Interior cálido"},
-                {"src": "/imgs/rio-nativo-4.jpg", "title": "Río Nativo", "subtitle": "Cocina rústica"},
-                {"src": "/imgs/rio-nativo-5.jpg", "title": "Río Nativo", "subtitle": "Dormitorio principal"},
-                {"src": "/imgs/rio-nativo-6.jpg", "title": "Río Nativo", "subtitle": "Baño principal"}
-            ]
-        }
-    ]
+cabins = [
+    {
+        "name": "Mirador del Sol",
+        "slug": "mirador-sol",
+        "images": [
+            {"src": "imgs/mirador-sol-1.jpg", "title": "Mirador del Sol", "subtitle": "Vista panorámica"},
+            {"src": "/imgs/mirador-sol-2.jpg", "title": "Mirador del Sol", "subtitle": "Interior cálido"},
+            {"src": "/imgs/mirador-sol-3.jpg", "title": "Mirador del Sol", "subtitle": "Terraza elevada"},
+            {"src": "/imgs/mirador-sol-4.jpg", "title": "Mirador del Sol", "subtitle": "Piscina privada"},
+            {"src": "/imgs/mirador-sol-5.jpg", "title": "Mirador del Sol", "subtitle": "Dormitorio principal"},
+            {"src": "/imgs/mirador-sol-6.jpg", "title": "Mirador del Sol", "subtitle": "Dormitorio secundario"},
+            {"src": "/imgs/mirador-sol-7.jpg", "title": "Mirador del Sol", "subtitle": "Baño moderno"},
+            {"src": "/imgs/mirador-sol-8.jpg", "title": "Mirador del Sol", "subtitle": "Cocina equipada"}
+        ],
+        "precio_por_noche": 250,
+        "capacidad": 4,
+        "ammenities": "WiFi, Cocina, Piscina, Vista panorámica, Terraza elevada, Dormitorio principal, Dormitorio secundario, Baño moderno"
+    },
+    {
+        "name": "Bosque Vivo",
+        "slug": "bosque-vivo",
+        "images": [
+            {"src": "/imgs/bosque-vivo-1.jpg", "title": "Bosque Vivo", "subtitle": "Rodeada de árboles"},
+            {"src": "/imgs/bosque-vivo-2.jpg", "title": "Bosque Vivo", "subtitle": "Luz natural"},
+            {"src": "/imgs/bosque-vivo-3.jpg", "title": "Bosque Vivo", "subtitle": "Patio acogedor"},
+            {"src": "/imgs/bosque-vivo-4.jpg", "title": "Bosque Vivo", "subtitle": "Cocina rústica"},
+            {"src": "/imgs/bosque-vivo-5.jpg", "title": "Bosque Vivo", "subtitle": "Dormitorio principal"},
+            {"src": "/imgs/bosque-vivo-6.jpg", "title": "Bosque Vivo", "subtitle": "Baño rústico"}
+        ],
+        "precio_por_noche": 140,
+        "capacidad": 3,
+        "ammenities": "Cocina rústica, Patio acogedor, Dormitorio principal, Baño rústico, Rodeada de árboles, Luz natural"
+    },
+    {
+        "name": "Rincón Lunar",
+        "slug": "rincon-lunar",
+        "images": [
+            {"src": "/imgs/rincon-lunar-1.jpg", "title": "Rincón Lunar", "subtitle": "Cielo nocturno"},
+            {"src": "/imgs/rincon-lunar-2.jpg", "title": "Rincón Lunar", "subtitle": "Interior acogedor"},
+            {"src": "/imgs/rincon-lunar-3.jpg", "title": "Rincón Lunar", "subtitle": "Cocina moderna"},
+            {"src": "/imgs/rincon-lunar-4.jpg", "title": "Rincón Lunar", "subtitle": "Dormitorio principal"},
+            {"src": "/imgs/rincon-lunar-5.jpg", "title": "Rincón Lunar", "subtitle": "Baño elegante"},
+            {"src": "/imgs/rincon-lunar-6.jpg", "title": "Rincón Lunar", "subtitle": "Piscina nocturna"}
+        ],
+        "precio_por_noche": 180,
+        "capacidad": 2,
+        "ammenities": "Cocina moderna, Dormitorio principal, Baño elegante, Piscina nocturna, Cielo nocturno, Interior acogedor"
+    },
+    {
+        "name": "Río Nativo",
+        "slug": "rio-nativo",
+        "images": [
+            {"src": "/imgs/rio-nativo-1.jpg", "title": "Río Nativo", "subtitle": "Junto al agua"},
+            {"src": "/imgs/rio-nativo-2.jpg", "title": "Río Nativo", "subtitle": "Deck exterior"},
+            {"src": "/imgs/rio-nativo-3.jpg", "title": "Río Nativo", "subtitle": "Interior cálido"},
+            {"src": "/imgs/rio-nativo-4.jpg", "title": "Río Nativo", "subtitle": "Cocina rústica"},
+            {"src": "/imgs/rio-nativo-5.jpg", "title": "Río Nativo", "subtitle": "Dormitorio principal"},
+            {"src": "/imgs/rio-nativo-6.jpg", "title": "Río Nativo", "subtitle": "Baño principal"}
+        ],
+        "precio_por_noche": 100,
+        "capacidad": 3,
+        "ammenities": "Cocina rústica, Dormitorio principal, Baño principal, Deck exterior, Junto al agua, Interior cálido"
+    }
+]
 
-    experiencias = [{
+
+experiencias = [{
             "title": "Aventura en el bosque",
             "description": "Para max. 5 personas.",
             "subdesc": """Un circuito por los bosques que rodean las cabañas; compuesto por puentes flotantes y cascadas naturales a cada paso de la experiencia. 
@@ -101,6 +112,9 @@ def index():
         }
     ]
 
+
+@app.route('/')
+def index():
     comentarios = [{
     "name": "Elena Márquez",
     "src": "imgs/avatar-1.jpg",
@@ -122,9 +136,18 @@ def index():
 ]
     return render_template('index.html', cabins=cabins, experiences=experiencias, testimonials=comentarios)
 
-@app.route('/hola')
-def registration():
-    return render_template('hola.html')
+@app.route('/reservar')
+def reservar():
+    return render_template('reservar.html', cabins=cabins)
                            
+@app.route('/reservar/<cabin_slug>')
+def reservar_cabaña(cabin_slug):
+    cabin = next((c for c in cabins if c['slug'] == cabin_slug), None)
+    if cabin:
+        return render_template('reservar_cabaña.html', cabin=cabin)
+    else:
+        # Redirigir a la página de reservar general si no encuentra la cabaña
+        return redirect(url_for('reservar'))
+
 if __name__ == '__main__':
     app.run(port= 5002 , debug=True)

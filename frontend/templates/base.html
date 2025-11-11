@@ -7,10 +7,10 @@
     <meta name="author" content="Devcrud">
     
     <title>{% block title %}Nordika Cabins{% endblock %}</title>
-    
-    <link rel="stylesheet" href="static/vendors/themify-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="static/css/leadmark.css">
-    
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendors/ti-icons/css/themify-icons.css', _external=True) }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/leadmark.css', _external=True) }}">
+
     {% block head_extra %}{% endblock %}
 
 </head>
@@ -56,20 +56,18 @@
             </div>
             
             <footer class="mt-5 py-4 border-top border-secondary">
-                <p class="mb-0 small" > hecho por </p>     
+                <p class="mb-0 small" > hecho por </p> 
             </footer>
         </div>
     </section>
 
-    <script src="static/vendors/jquery/jquery-3.4.1.js"></script>
-    <script src="static/vendors/bootstrap/bootstrap.bundle.js"></script>
-    <script src="static/vendors/bootstrap/bootstrap.affix.js"></script>
-    <script src="static/vendors/isotope/isotope.pkgd.js"></script>
-    <script src="static/js/leadmark.js"></script>
-    
+    <script src="{{ url_for('static', filename='vendors/jquery/jquery-3.4.1.js', _external=True) }}"></script>
+    <script src="{{ url_for('static', filename='vendors/bootstrap/bootstrap.bundle.js', _external=True) }}"></script>
+    <script src="{{ url_for('static', filename='vendors/bootstrap/bootstrap.affix.js', _external=True) }}"></script>
+    <script src="{{ url_for('static', filename='vendors/isotope/isotope.pkgd.js', _external=True) }}"></script>
+    <script src="{{ url_for('static', filename='js/leadmark.js', _external=True) }}"></script>
+
     {% block scripts_extra %}{% endblock %}
-    
-    <script src="static/js/main.js"></script>
 
 </body>
 </html>

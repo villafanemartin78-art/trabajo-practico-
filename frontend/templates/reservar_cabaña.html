@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block head_extra %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/reservar.css', _external=True)}}">
+    <script>
+        var disableChangeHeader = true; // Cambia a true en esta página
+    </script>
+{% endblock %}
+
+{% block content %}
+<nav class="navbar custom-navbar navbar-expand-md navbar-light fixed-top" data-spy="affix" data-offset-top="10">
+    <div class="container">
+        <a style="scroll-behavior: smooth;" class="navbar-brand" href="{{ url_for('index') }}">
+            <img src="{{url_for('static', filename='imgs/logo.svg', _external=True)}}" alt="">
+        </a>
+        <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">                     
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('reservar') }}">Todas las Cabañas</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<header class="header" id="header" style="transition: background-image 1s; background: url({{url_for('static', filename='imgs/'+ cabin.slug +'-1.jpg', _external=True)}}) no-repeat center center; background-size: cover">
+    <div class="overlay">
+        <h1 class="subtitle">Reservar</h1>
+        <h1 class="title">{{ cabin.name }}</h1>  
+    </div>  
+    <div class="shape">
+        <svg viewBox="0 0 1500 200">
+            <path d="m 0,240 h 1500.4828 v -71.92164 c 0,0 -286.2763,-81.79324 -743.19024,-81.79324 C 300.37862,86.28512 0,168.07836 0,168.07836 Z"/>
+        </svg>
+    </div>  
+    <div class="mouse-icon"><div class="wheel"></div></div>
+</header>
+
+<section class="section" style="padding-top: 100px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h2>{{ cabin.name }}</h2>
+                <p class="lead">{{ cabin.description }}</p>
+                
+                <!-- Carrusel de imágenes -->
+                <div class="cabin-carousel-wrapper mb-4">
+                    <div class="cabin-carousel" data-cabin="{{ cabin.slug }}">
+                        <div class="cabin-carousel-track">
+                            {% for img in cabin.images %}
+                                <div class="cabin-carousel-item">
+                                    <img src="{{url_for('static', filename=img.src, _external=True)}}" alt="{{ img.title }}">
+                                    <div class="cabin-carousel-caption">
+                                        <h6>{{ img.title }}</h6>
+                                        <p>{{ img.subtitle }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Comodidades</h4>
+                <ul>
+                    {% for amenity in cabin.ammenities.split(', ') %}
+                        <li>{{ amenity }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card shadow-sm sticky-top" style="top: 100px;">
+                    <div class="card-body">
+                        <h4 class="card-title">Detalles de Reserva</h4>
+                        <hr>
+                        <p><strong>Capacidad:</strong> {{ cabin.capacidad }} personas</p>
+                        <p><strong>Precio por noche:</strong> <span class="text-primary font-weight-bold">${{ cabin.precio_por_noche }}</span></p>
+                        
+                        <form method="POST" action="">
+                            <div class="form-group">
+                                <label for="check_in">Fecha de entrada</label>
+                                <input type="date" class="form-control" id="check_in" name="check_in" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="check_out">Fecha de salida</label>
+                                <input type="date" class="form-control" id="check_out" name="check_out" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="guests">Número de huéspedes</label>
+                                <input type="number" class="form-control" id="guests" name="guests" min="1" max="{{ cabin.capacidad }}" required>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span>Total estimado:</span>
+                                <span id="total" class="font-weight-bold">$0</span>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Confirmar Reserva</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts_extra %}
+<script>
+    // Calcular total
+    $(document).ready(function() {
+        var pricePerNight = {{ cabin.precio_por_noche }};
+        
+        function calculateTotal() {
+            var checkIn = new Date($('#check_in').val());
+            var checkOut = new Date($('#check_out').val());
+            
+            if (checkIn && checkOut && checkOut > checkIn) {
+                var nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+                var total = nights * pricePerNight;
+                $('#total').text('$' + total + ' (' + nights + ' noches)');
+            } else {
+                $('#total').text('$0');
+            }
+        }
+        
+        $('#check_in, #check_out').on('change', calculateTotal);
+    });
+</script>
+{% endblock %}
