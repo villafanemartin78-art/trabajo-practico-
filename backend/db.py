@@ -7,7 +7,7 @@ def get_conexion():
         host="localhost",
         user="root",
         password="",
-        #aca pongan la contraseña q hayan puesto
+        #aca pongan la contraseña q hayan puesto ( pongan si o si una contraseña sino no van a tener acceso )
         database="sistema_reservas"
         #aca pongan el nombre de su base de datos
     )
