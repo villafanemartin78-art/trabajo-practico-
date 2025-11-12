@@ -197,17 +197,6 @@
     opacity: 0.8;
 }
 
-.fc-day-past::after {
-    content: "❌";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.5rem;
-    pointer-events: none;
-    opacity: 0.6;
-}
-
 .fc-daygrid-day-frame.fc-day-selected {
     background-color: #4CAF50 !important;
 }

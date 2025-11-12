@@ -2774,6 +2774,7 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #ff6e42;
   border-color: #ff6e42;
+  border-radius: 10px;
 }
 
 .btn-primary:hover {
@@ -11874,4 +11875,24 @@ video {
 #experiencesCarousel .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+#reservation-id {
+  background-color:transparent;
+  color: white;
+  border: 1px solid white;
+  border-radius: 10px;
+  margin-right: 60px;
+  width:400px;
+  height: 40px;
+}
+
+#reservation-id::placeholder {
+  color: white;
+  opacity: 1;
+}
+
+.btn-primary {
+  width: 150px;
+  height: 40px;
 }

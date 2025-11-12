@@ -1,7 +1,10 @@
+import os
 from flask import Flask, flash, jsonify, redirect, url_for, render_template, request
 import requests
 
 app = Flask(__name__)
+# SECRET_KEY is required for sessions/flash to work. Prefer setting it via environment in production.
+app.secret_key = os.environ.get('SECRET_KEY', 'dev_secret_key_change_me')
 
 URL_BACKEND = "http://localhost:5003"
 
@@ -162,19 +165,23 @@ def mis_reservas():
         if response.status_code == 200:
             datos_reserva = response.json()
         else:
-            flash('No se pudo encontrar la reserva. Por favor verifique el ID', 'error')
-            datos_reserva = None
+            datos_reserva = False
         return render_template('mis_reservas.html', datos=datos_reserva)
 
 
-@app.route('/cancelar/<id_reserva>', methods=['POST'])
-def cancelar_reserva(id_reserva):
-    response = requests.post(f"{URL_BACKEND}/cancelar_reserva/{id_reserva}")
+@app.route('/cancelar', methods=['POST'])
+def cancelar_reserva():
+    id_reserva = request.form.get('reservation_id')
+    print("ID recibido del formulario:", id_reserva)
+
+    response = requests.post(f"{URL_BACKEND}/cancelar/{id_reserva}")
+    
     if response.status_code == 200:
         flash('Reserva cancelada correctamente', 'success')
     else:
         flash('Hubo un error al cancelar la reserva', 'error')
-    return redirect(url_for('mis_reservas'))
+
+    return redirect(url_for('mis_reservas', id=id_reserva))
 
 # Ya están listas para conectar con el backend.
 
