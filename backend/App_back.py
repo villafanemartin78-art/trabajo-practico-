@@ -32,5 +32,39 @@ def get_cabanas():
 
     return jsonify(alojamientos)     # Devuelve los resultados como JSON
 
+@app.route('/api/reservas/<int:id_alojamiento>', methods=['GET']) #captura un entero desde la URL y lo pasa a la función como id_alojamiento
+def obtener_reservas_alojamiento(id_alojamiento):
+
+    conn = get_conexion()
+    cursor = conn.cursor(dictionary=True) #hace que los resultados salgan como diccionario
+
+    cursor.execute("""                             
+        SELECT fecha_entrada, fecha_salida 
+        FROM reservas
+        WHERE id_alojamiento = %s
+          AND estado <> 'cancelada';
+    """, (id_alojamiento,))    #Busca todas las reservas del alojamiento indicado. solo trae fecha_entrada y fecha_salida y filtra para no traer las canceladas
+
+    reservas = cursor.fetchall() # lee todas las filas que devolvio el sql
+
+    cursor.close()
+    conn.close() # cierra el cursor y la conexion 
+
+    # Convertimos al formato FullCalendar
+    eventos = []
+    for r in reservas:
+        eventos.append({
+            "title": "Reservado",
+            "start": r["fecha_entrada"].strftime("%Y-%m-%d"),
+            "end": r["fecha_salida"].strftime("%Y-%m-%d"),
+            "display": "block",
+            "color": "#FF5252",
+            "className": "reserved-event"
+        })  # Convierte fecha_entrada y fecha_salida a texto con formato YYYY-MM-DD
+
+    return jsonify(eventos)
+
+
 if __name__ == '__main__':
+
     app.run(port=5003, debug=True)
