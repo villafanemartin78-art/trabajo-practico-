@@ -1,11 +1,9 @@
-# trabajo-practico-
-
 # antes de iniciarse el proyecto en flask debe/n instalarse:
 flask-cors --> pip install flask-cors
 
-Comentario: para iniciar las paginas se debe inicializar el archivo "iniciar_pagina.sh"
+# Comentario: para iniciar las paginas se debe inicializar el archivo "iniciar_pagina.sh"
 
-Base de datos:
+# Base de datos:
 La base de datos está diseñada siguiendo principios de normalización, permitiendo que un cliente pueda realizar múltiples reservas, gestionar servicios adicionales, y mantener un historial ordenado y seguro. Consta de cuatro tablas principales:
 1. alojamientos
 Contiene toda la información de las cabañas disponibles en el sistema.
