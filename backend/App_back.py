@@ -64,6 +64,40 @@ def obtener_reservas_alojamiento(id_alojamiento):
 
     return jsonify(eventos)
 
+@app.route('/api/reservas/cliente/<int:id_cliente>', methods=['GET']) #Registra la ruta /api/reservas/cliente/<id_cliente> como un endpoint GET en Flask.<int:id_cliente> captura un entero desde la URL y lo pasa como argumento id_cliente a la función.
+def obtener_reservas_cliente(id_cliente):
+
+    conn = get_conexion()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT 
+            r.id_reserva,
+            r.id_cliente,
+            r.id_alojamiento,
+            r.fecha_entrada,
+            r.fecha_salida,
+            r.num_personas,
+            r.estado,
+            r.fecha_reserva,
+            a.nombre AS nombre_alojamiento,
+            a.direccion
+        FROM reservas r
+        INNER JOIN alojamientos a ON r.id_alojamiento = a.id_alojamiento
+        WHERE r.id_cliente = %s;
+    """, (id_cliente,))  #Selecciona campos relevantes de la tabla reservas (alias r) y algunos campos del alojamiento (alias a).
+                         #Hace un INNER JOIN para traer el nombre y direccion del alojamiento asociado a cada reserva. Filtra por r.id_cliente = %s. El %s es un placeholder y el segundo argumento (id_cliente,) pasa el valor de forma segura (previene inyección SQL).
+
+    reservas = cursor.fetchall() #Recupera todas las filas resultantes de la consulta en una lista. Cada elemento es un diccionario con las columnas seleccionadas.
+
+    cursor.close()
+    conn.close()
+
+    if not reservas: # verifica si la lista reservas este vacia ( no hay reservas para el cliente)
+        return jsonify({"error": "No se encontraron reservas para este cliente"}), 404
+
+    return jsonify(reservas) #Si hay reservas, devuelve la lista completa como JSON (HTTP 200 implícito). El JSON contendrá objetos con campos como id_reserva, fecha_entrada, fecha_salida, estado, nombre_alojamiento, etc.
+
 @app.route('/api/reservas/cancelar/<int:id_reserva>', methods=['POST'])
 def cancelar_reserva(id_reserva):
 
@@ -104,4 +138,5 @@ def cancelar_reserva(id_reserva):
 if __name__ == '__main__':
 
     app.run(port=5003, debug=True)
+
 
