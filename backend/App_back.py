@@ -64,7 +64,44 @@ def obtener_reservas_alojamiento(id_alojamiento):
 
     return jsonify(eventos)
 
+@app.route('/api/reservas/cancelar/<int:id_reserva>', methods=['POST'])
+def cancelar_reserva(id_reserva):
+
+    conn = get_conexion()
+    cursor = conn.cursor(dictionary=True)
+
+    # verificar que exista
+    cursor.execute("""
+        SELECT estado 
+        FROM reservas 
+        WHERE id_reserva = %s;
+    """, (id_reserva,))  # Consulta la columna estado de la fila con id_reserva dado. Se usa placeholder %s para seguridad.
+    
+    reserva = cursor.fetchone() #devuelve el primer resultado o none si no hay nada
+
+    if not reserva:
+        cursor.close()
+        conn.closey 
+        return jsonify({"error": "Reserva no encontrada"}), 404
+                            #si no encuentra nada se cierra el cursor y la conexion y devuelve "error" reserva no encontrada y ponemos un error 404
+    
+    # actualizar estado
+    cursor.execute("""
+        UPDATE reservas
+        SET estado = 'cancelada'
+        WHERE id_reserva = %s;
+    """, (id_reserva,))   #usamos la sentencia UPDATE para modificar el estado a "cancelada" 
+    
+    conn.commit() #confirmamos el cambia a la base de datos, sin esto no se agregaria
+
+    cursor.close()
+    conn.close()
+
+    return jsonify({"message": "Reserva cancelada correctamente"}), 200 #Devuelve un JSON con mensaje de confirmación y código HTTP 200 (OK).
+
+
 
 if __name__ == '__main__':
 
     app.run(port=5003, debug=True)
+
