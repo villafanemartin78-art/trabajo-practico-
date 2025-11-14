@@ -1,5 +1,7 @@
 # trabajo-practico-
-tareas q hacer para el trabajo no se si sea repositorio final
+
+# antes de iniciarse el proyecto en flask debe/n instalarse:
+flask-cors --> pip install flask-cors
 
 Comentario: para iniciar las paginas se debe inicializar el archivo "iniciar_pagina.sh"
 
