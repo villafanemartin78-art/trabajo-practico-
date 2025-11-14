@@ -1,4 +1,6 @@
 # antes de iniciarse el proyecto en flask debe/n instalarse:
+flask_mail --> pip install flask_mail
+requests --> pip install requests
 flask-cors --> pip install flask-cors
 
 # Comentario: para iniciar las paginas se debe inicializar el archivo "iniciar_pagina.sh"
