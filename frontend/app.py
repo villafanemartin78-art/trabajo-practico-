@@ -2,6 +2,7 @@ import os
 from random import randint
 from flask import Flask, flash, jsonify, redirect, url_for, render_template, request, session
 import requests
+import json
 from flask_mail import Mail, Message
 
 app = Flask(__name__)
@@ -251,6 +252,49 @@ def datos_reserva():
         flash('Por favor, complete todos los campos de la reserva.', 'error')
         return redirect(url_for('reservar', cabin_slug=datos["cabin_slug"]))
     return render_template('ingreso_datos.html', datos=datos, cabañas=cabins, experiencias=experiencias)
+
+@app.route('/procesar-reserva', methods=['POST'])
+def procesar_reserva():
+        # Guardo los datos del formulario de ingreso_datos.html
+        nombre = request.form.get('nombre')
+        email = request.form.get('email')
+        telefono = request.form.get('telefono')
+        documento = request.form.get('documento')
+        
+        reservar_data = session.get('reservation')
+        # En caso de que la session de reservar_cabaña.html no tenga información da error
+        if not reservar_data:
+            return "Error: No hay datos de reserva en sesión", 400
+        # Guardo los datos de los dos formularios en un diccionario
+        datos_reserva = {
+            'cabin_slug': reservar_data['cabin_slug'],
+            'nombre': nombre,
+            'email': email,
+            'telefono': telefono,
+            'check_in': reservar_data['check_in'],
+            'check_out': reservar_data['check_out'],
+            'cant_personas': reservar_data['cant_personas'],
+            'total': reservar_data['total']
+        }
+        # intento mandar el diccionario datos_reserva en formato json a una ruta llamada back-end/reserva
+        try:
+            response = requests.post(
+                f"{'http://localhost:5003/api'}/reservas",
+                json=datos_reserva,
+                headers={'Content-Type': 'application/json'}
+            )
+            
+            if response.status_code == 201:
+                session.pop('reservation', None)
+                return render_template('mis_reservas.html')
+            else:
+                error_data = response.json()
+                return f"Error del backend: {error_data.get('error', 'Error desconocido')}", 400
+        # Si no consigo mandarlo por problema del back-end devuelve error
+        except requests.exceptions.RequestException as e:
+            return f"Error de conexión con el backend: {str(e)}", 500
+    
+    return render_template('reservar_cabañas.html')
 
 @app.route('/enviar_mail', methods=['POST'])
 def enviar_mail():
