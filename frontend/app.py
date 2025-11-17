@@ -9,16 +9,6 @@ app = Flask(__name__)
 # SECRET_KEY is required for sessions/flash to work. Prefer setting it via environment in production.
 app.secret_key = os.environ.get('SECRET_KEY', 'dev_secret_key_change_me')
 
-app.config['MAIL_SERVER']='smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_DEFAULT_SENDER'] = 'practicotrabajo74@gmail.com'
-app.config['MAIL_USERNAME'] = 'practicotrabajo74@gmail.com'
-app.config['MAIL_PASSWORD'] = 'vsug hlcz dpin dwvn'
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
-
-mail= Mail(app)
-
 URL_BACKEND = "http://localhost:5003/api"
 
 cabins = [
