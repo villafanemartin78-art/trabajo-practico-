@@ -40,7 +40,7 @@ CREATE TABLE servicios_extras (
     title VARCHAR(150) NOT NULL,
     subdesc TEXT NOT NULL,
     src VARCHAR(200) NOT NULL,
-    cantidad INT NOT NULL,
+    capacidad INT NOT NULL,
     precio INT NOT NULL 
 );
 
@@ -48,7 +48,7 @@ CREATE TABLE servicios_reserva (
     id_servicio_reserva INT AUTO_INCREMENT PRIMARY KEY,
     id_reserva INT NOT NULL,
     id_servicio INT NOT NULL,
-    cantidad INT DEFAULT 1,
+    capacidad INT DEFAULT 1,
 
     FOREIGN KEY (id_reserva) REFERENCES reserva(id_reserva)
         ON DELETE CASCADE
