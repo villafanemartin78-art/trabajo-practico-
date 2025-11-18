@@ -219,3 +219,51 @@ INSERT INTO imagenes_alojamiento (
     'Río Nativo',
     'Baño principal'
 );
+INSERT INTO servicios_extras (title, capacidad, subdesc, src, precio) VALUES
+("Aventura en el bosque", 
+ 5,
+ "Un circuito por los bosques que rodean las cabañas; compuesto por puentes flotantes y cascadas naturales a cada paso de la experiencia. 
+No te pierdas esta experiencia inolvidable. Alquilá tu cabaña Nordika.",
+ "imgs/experiencia-1.jpg",
+ 400
+),
+
+("Paseo natural", 
+ 6,
+ "Un recorrido por senderos rodeados de flora nativa, con paradas en miradores naturales.
+Disfrutá de la tranquilidad y belleza del entorno. Alquilá tu cabaña Nordika.",
+ "imgs/experiencia-2.jpg",
+ 300
+),
+
+("Trekking por las montañas", 
+ 3,
+ "Una experiencia de trekking que te llevará a través de paisajes montañosos impresionantes. 
+Conectá con la naturaleza y disfrutá de vistas inolvidables. Alquilá tu cabaña Nordika.",
+ "imgs/experiencia-3.jpg",
+ 650
+),
+
+("Meditación en el bosque", 
+ 3,
+ "Una experiencia de mindfulness en medio del bosque, donde podrás conectarte con la naturaleza y disfrutar de un profundo momento de paz y tranquilidad. 
+Perfecta para relajarte y desconectar del estrés. Alquilá tu cabaña Nordika y vive la calma del bosque.",
+ "imgs/experiencia-4.jpg",
+ 160
+),
+
+("Paseo nocturno en el bosque", 
+ 4,
+ "Vive la magia del bosque de noche, con una experiencia nocturna que te llevará a explorar los sonidos y las vistas bajo las estrellas. Escucha el crujir de las hojas y los murmullos del viento mientras te adentras en la oscuridad tranquila del bosque. 
+Una experiencia única para aquellos que buscan una conexión más profunda con la naturaleza. Alquilá tu cabaña Nordika y prepárate para una aventura bajo el cielo estrellado.",
+ "imgs/experiencia-5.jpg",
+ 220
+),
+
+("Paseo en barco por el río del bosque", 
+ 6,
+ "Disfruta de un tranquilo paseo en barco o canoa por los ríos y lagos que rodean el bosque. Observa la fauna local y relájate mientras navegas entre los árboles, explorando paisajes inaccesibles por tierra. 
+Vive la serenidad del agua y la naturaleza. Alquilá tu cabaña Nordika y prepárate para una experiencia única en el bosque.",
+ "imgs/experiencia-6.jpg",
+ 700
+);
