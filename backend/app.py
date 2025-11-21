@@ -314,6 +314,61 @@ def obtener_reserva(id_reserva):
 
     return jsonify(reserva), 200
 
+# Se extraen los campos de la tabla reservas según el slug de la URL
+def extraer_reservas_por_slug(slug):
+    conn = get_conexion()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT id_alojamiento
+        FROM alojamientos
+        WHERE slug = %s
+    """, (slug,))
+
+    fila = cursor.fetchone()
+    id_alojamiento = fila["id_alojamiento"]
+
+    cursor.execute("""
+        SELECT check_in, check_out
+        FROM reserva
+        WHERE id_alojamiento = %s
+        AND estado != 'cancelada'
+    """, (id_alojamiento,))
+
+    reservas = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    for r in reservas:
+        r["check_in"] = r["check_in"].isoformat()
+        r["check_out"] = r["check_out"].isoformat()
+
+    return reservas
+
+# Se encarga de enviar en formato json la información de la función extraer_reservas_por_slug
+@app.route('/api/reservas/<slug>', methods=['GET'])
+def retornar_reservas_por_slug(slug):
+    try:
+        reservas = extraer_reservas_por_slug(slug)
+
+        return jsonify({
+            "success": True,
+            "reservas": reservas
+        })
+
+    except ValueError as err:
+        return jsonify({
+            "success": False,
+            "error": str(err)
+        }), 400
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": f"Error del servidor: {e}"
+        }), 500
+
 @app.route('/api/reservas/<int:id_alojamiento>', methods=['GET']) #captura un entero desde la URL y lo pasa a la función como id_alojamiento
 def obtener_reservas_alojamiento(id_alojamiento):
     
@@ -476,6 +531,7 @@ def cancelar_reserva(id_reserva):
 if __name__ == '__main__':
 
     app.run(port=5003, debug=True)
+
 
 
 
