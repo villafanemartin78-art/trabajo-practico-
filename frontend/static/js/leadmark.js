@@ -369,18 +369,16 @@ document.addEventListener("DOMContentLoaded", function() {
         // Mostrar el popup
         popupConfirmacion.style.display = "flex";
     });
-
-    // ✅ Solo al confirmar se hace la redirección
+    // Al obtener los elementos del formulario hace submit para enviar los datos ingresados al mismo
     confirmarReserva.addEventListener("click", function() {
-
-        // Redirigir al inicio
-        window.location.href = "/";
-
-        // Ocultar el popup (opcional, ya que se redirige)
+        document.querySelector("form").submit();
+    });
+    // Desaparecer el popUp cuando se confirma la reserva
+    document.getElementById("formReserva").addEventListener("submit", function() {
         popupConfirmacion.style.display = "none";
     });
 
-    // ❌ Al cancelar, solo se cierra el popup, sin redirigir
+    // Al cancelar, solo se cierra el popup, sin redirigir
     cancelarReserva.addEventListener("click", function(event) {
         event.preventDefault(); // Evita cualquier acción por defecto
         popupConfirmacion.style.display = "none"; // Solo cerrar
