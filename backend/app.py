@@ -369,127 +369,6 @@ def retornar_reservas_por_slug(slug):
             "error": f"Error del servidor: {e}"
         }), 500
 
-@app.route('/api/reservas/<int:id_alojamiento>', methods=['GET']) #captura un entero desde la URL y lo pasa a la función como id_alojamiento
-def obtener_reservas_alojamiento(id_alojamiento):
-    
-    conn = get_conexion()
-    cursor = conn.cursor() #hace que los resultados salgan como diccionario
-
-    cursor.execute("""                             
-        SELECT check_in, check_out
-        FROM reserva
-        WHERE id_alojamiento = %s
-          AND estado <> 'cancelada';
-    """, (id_alojamiento,))    #Busca todas las reservas del alojamiento indicado. solo trae fecha_entrada y fecha_salida y filtra para no traer las canceladas
-
-    reservas = cursor.fetchall() # lee todas las filas que devolvio el sql
-
-    cursor.close()
-    conn.close() # cierra el cursor y la conexion 
-    
-    # Convertimos al formato FullCalendar
-    eventos = []
-    for r in reservas:
-        eventos.append({
-            "title": "Reservado",
-            "start": r["check_in"].strftime('%Y-%m-%d'),
-            "end": r["check_out"].strftime('%Y-%m-%d'),
-            "display": "block",
-            "color": "#EE6A6A",
-            "className": "reserved-event"
-        })  # Convierte fecha_entrada y fecha_salida a texto con formato YYYY-MM-DD
-    return jsonify(eventos)
-
-@app.route('/api/reservas/cliente/<int:id_cliente>', methods=['GET']) #Registra la ruta /api/reservas/cliente/<id_cliente> como un endpoint GET en Flask.<int:id_cliente> captura un entero desde la URL y lo pasa como argumento id_cliente a la función.
-def obtener_reservas_cliente(id_cliente):
-
-    conn = get_conexion()
-    cursor = conn.cursor(dictionary=True)
-
-    cursor.execute("""
-        SELECT 
-            r.id_reserva,
-            r.id_cliente,
-            r.id_alojamiento,
-            r.check_in,
-            r.check_out,
-            r.cant_personas,
-            r.estado,
-            r.total,
-            r.nombre,
-            r.email,
-            r.telefono,
-            r.fecha_reserva,
-            a.nombre AS name,
-            a.ubicacion
-        FROM reserva r
-        INNER JOIN alojamientos a ON r.id_alojamiento = a.id_alojamiento
-        WHERE r.id_cliente = %s;
-    """, (id_cliente,))  #Selecciona campos relevantes de la tabla reservas (alias r) y algunos campos del alojamiento (alias a).
-                         #Hace un INNER JOIN para traer el nombre y direccion del alojamiento asociado a cada reserva. Filtra por r.id_cliente = %s. El %s es un placeholder y el segundo argumento (id_cliente,) pasa el valor de forma segura (previene inyección SQL).
-
-    reservas = cursor.fetchall() #Recupera todas las filas resultantes de la consulta en una lista. Cada elemento es un diccionario con las columnas seleccionadas.
-
-    cursor.close()
-    conn.close()
-
-    if not reservas: # verifica si la lista reservas este vacia ( no hay reservas para el cliente)
-        return jsonify({"error": "No se encontraron reservas para este cliente"}), 404
-
-    return jsonify(reservas) #Si hay reservas, devuelve la lista completa como JSON (HTTP 200 implícito). El JSON contendrá objetos con campos como id_reserva, fecha_entrada, fecha_salida, estado, nombre_alojamiento, etc.
-
-@app.route('/api/reservas/enviar-mail/<int:id_reserva>', methods=['POST'])
-def enviar_mail_reserva (id_reserva):
-    conn = get_conexion ()
-    cursor = conn.cursor (dictionary = True) 
-
-    cursor.execute ("""
-        SELECT
-            r.id_reserva,
-            r.nombre,
-            r.check_in,
-            r.check_out,
-            r.cant_personas,
-            r.total,
-            r.email,
-            r.telefono,
-            a.name as alojamiento
-        FROM reserva r 
-        INNER JOIN alojamientos a ON r.id_alojamiento = a.id_alojamiento
-        WHERE r.id_reserva = %s;
-    """, (id_reserva,))
-    
-    reserva = cursor.fetchone()
-    cursor.close()
-    conn.close()
-
-    if not reserva:
-        return jsonify({"error" : "reserva no encontrada" }) ,404
-
-    # Crear el mensaje de correo
-    msg = Message('Confirmación de Reserva',
-                  sender='practicotrabajo74@gmail.com',
-                  recipients=[reserva["email"]])  # Correo del cliente
-
-    # Renderizar el template HTML del correo
-    msg.html = render_template('confirmacion_reserva_email.html',
-                                cabin_slug=reserva['alojamiento'],
-                                reserva_id=id_reserva,
-                                check_in=reserva['check_in'],
-                                check_out=reserva['check_out'],
-                                cant_personas=reserva['cant_personas'],
-                                experiencias=[],
-                                total=reserva['total'],
-                                nombre=reserva['nombre'],
-                                email=reserva['email'],
-                                telefono=reserva['telefono'],)
-    try:
-        mail.send(msg)
-    except Exception as e:
-        return jsonify({"error": f"No se pudo enviar el mail: {str(e)}"}), 500
-
-    return jsonify({"message": "Mail enviado correctamente"}), 200
-
 
 @app.route('/api/reservas/cancelar/<int:id_reserva>', methods=['POST'])
 def cancelar_reserva(id_reserva):
@@ -531,6 +410,7 @@ def cancelar_reserva(id_reserva):
 if __name__ == '__main__':
 
     app.run(port=5003, debug=True)
+
 
 
 
