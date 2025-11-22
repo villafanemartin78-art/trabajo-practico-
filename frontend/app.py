@@ -119,6 +119,7 @@ def procesar_reserva():
         if not reservar_data:
             return "Error: No hay datos de reserva en sesión", 400
         # Guardo los datos de los dos formularios en un diccionario
+        experiencias_seleccionadas = request.form.getlist("experiencias")
         datos_reserva = {
             'cabin_slug': reservar_data['cabin_slug'],
             'nombre': nombre,
@@ -127,7 +128,8 @@ def procesar_reserva():
             'check_in': reservar_data['check_in'],
             'check_out': reservar_data['check_out'],
             'cant_personas': reservar_data['cant_personas'],
-            'total': reservar_data['total']
+            'total': reservar_data['total'],
+            'experiencias': experiencias_seleccionadas
         }
     
         try:
