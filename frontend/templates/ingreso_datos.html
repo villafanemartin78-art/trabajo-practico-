@@ -76,8 +76,8 @@
                     {% for experiencia in experiencias %}
                         <label class="experiencia-item">
                             
-                            <input type="checkbox" class="experiencia" name="experiencias" value="{{ experiencia.title }}" data-precio="{{ experiencia.precio }}">
-                            
+                            <input type="checkbox" class="experiencia" name="experiencias" value="{{ experiencia.id_servicio }}" data-precio="{{ experiencia.precio }}">
+
                             <span class="circle"></span>
                             
                             <span class="experiencia-title">{{ experiencia.title }} - ${{ experiencia.precio }}</span>
