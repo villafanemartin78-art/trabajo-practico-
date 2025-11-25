@@ -306,59 +306,6 @@ def send_mail_for_reserva(id_reserva):
     mail.send(msg)
 
 
-
-
-@app.route('/api/reservas', methods=['POST'])
-def crear_reserva():
-    try:
-        data_form = request.json
-
-        # 1. Validar fechas
-        check_in, check_out = validar_fechas(data_form['check_in'], data_form['check_out'])
-
-        # 2. Obtener alojamiento y sus datos
-        fila_alojamiento = obtener_alojamiento_por_slug(data_form['cabin_slug'])
-        id_alojamiento = fila_alojamiento['id_alojamiento']
-        capacidad = fila_alojamiento['capacidad']
-
-        # 3. Validar capacidad
-        validar_capacidad(capacidad, data_form['cant_personas'])
-
-        # 4. Validar email
-        email_valido = validar_email(data_form['email'])
-
-        # 5. Validar superposición
-        if hay_superposicion(id_alojamiento, check_in, check_out):
-            return jsonify({
-                "success": False,
-                "error": "Las fechas seleccionadas no están disponibles"
-            }), 400
-
-        # 6. Insertar la reserva (método original sin experiencias)
-        id_reserva = insertar_reserva(id_alojamiento, data_form, check_in, check_out, email_valido)
-
-        # Enviar mail (intento, no falla la creación si el mail falla)
-        try:
-            send_mail_for_reserva(id_reserva)
-        except Exception:
-            pass
-
-        return jsonify({
-            "success": True,
-            "message": "Reserva creada exitosamente",
-            "id_reserva": id_reserva
-        }), 201
-
-    except ValueError as err:
-        return jsonify({
-            "success": False, 
-            "error": str(err)}), 400
-
-    except Exception as e:
-        return jsonify({
-            "success": False, 
-            "error": f"Error del servidor: {e}"}), 500
-
 # Obtener los campos de una reserva específica
 @app.route("/api/reservas/<int:id_reserva>", methods=["GET"])
 def obtener_reserva(id_reserva):
@@ -578,7 +525,7 @@ def manejar_experiencias_reserva(id_reserva):
     return jsonify({"message": "Experiencias actualizadas"}), 200
 
 
-@app.route('/api/reservas/complete', methods=['POST'])
+@app.route('/api/reservas', methods=['POST'])
 def crear_reserva_con_experiencias():
     """Crea una reserva y asigna experiencias en una sola transacción, luego envía mail.
        JSON esperado: {

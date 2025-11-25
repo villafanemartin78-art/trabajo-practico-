@@ -183,7 +183,7 @@ def procesar_reserva():
 
         try:
             response = requests.post(
-                f"{URL_BACKEND}/api/reservas/complete",
+                f"{URL_BACKEND}/api/reservas",
                 json=payload,
                 headers={'Content-Type': 'application/json'}
             )
