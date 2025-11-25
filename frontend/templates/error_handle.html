@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Error - Algo Salió Mal
+{% endblock %}
+
+{% block head_extra %}
+    <style>
+        .error-container {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 20px;
+            color: #fff;
+        }
+        .error-container h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #dc3545;
+        }
+        .error-container p {
+            font-size: 1.2rem;
+        }
+        .error-image {
+            max-width: 400px;
+            height: auto;
+            margin-top: 30px;
+            border-radius: 8px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="error-container">
+        
+        <h1>🛑 Ups, ha ocurrido un error.</h1>
+
+        {% if error_type %}
+            <p><strong>Tipo de Error:</strong> {{ error_type }}</p>
+        {% else %}
+            <p>Se ha producido un error inesperado. Por favor, inténtelo de nuevo.</p>
+        {% endif %}
+
+        {% if error_message %}
+            <p>Detalle: <em>{{ error_message }}</em></p>
+        {% endif %}
+
+        
+        <img 
+            src="{{ url_for('static', filename='imgs/imagen_de_error') }}" 
+            alt="Imagen de Error" 
+            class="error-image"
+        >
+
+        <p style="margin-top: 40px;">
+            <a href="/" class="btn btn-primary rounded">Volver a la página principal</a>
+        </p>
+    </div>
+{% endblock %}

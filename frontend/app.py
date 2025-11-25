@@ -197,8 +197,9 @@ def procesar_reserva():
                 error_data = response.json()
                 return f"Error al procesar la reserva: {error_data.get('error', error_data)}", 400
         # Si no consigo mandarlo por problema del back-end devuelve error
-        except requests.exceptions.RequestException as e:
-            return f"Error de conexión con el backend: {str(e)}", 500
+        except requests.exceptions.RequestException:
+            return render_template('error_handle.html', error_type='Error de Conexión (500)', error_message='No se pudo establecer conexión con el servicio de reservas. Inténtelo más tarde.'
+            ), 500
 
 @app.route('/pagar_reserva', methods=['POST'])
 def pagar_reserva():
@@ -211,6 +212,24 @@ def pagar_reserva():
     else:
         flash('Error al procesar el pago.', 'error')
     return redirect(url_for('mis_reservas'))
+
+#Acá maneja el error 404 (no encontrado)
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template(
+        'error_handle.html', 
+        error_type='404 Not Found', 
+        error_message='La página a la que intentas acceder no existe.'
+    ), 404
+
+#Acá maneja el error 500 (Error Interno del Servidor)
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template(
+        'error_handle.html', 
+        error_type='500 Internal Server Error', 
+        error_message='Lo sentimos, ha ocurrido un problema inesperado en el servidor. Estamos trabajando para solucionarlo.'
+    ), 500
 
 if __name__ == '__main__':
     app.run(port= 5002 , debug=True)
