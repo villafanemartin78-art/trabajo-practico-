@@ -230,6 +230,25 @@ def internal_server_error(error):
         error_type='500 Internal Server Error', 
         error_message='Lo sentimos, ha ocurrido un problema inesperado en el servidor. Estamos trabajando para solucionarlo.'
     ), 500
+  
+#Acá agregamos el uso de comentarios  
+@app.route('/comentarios', methods=['GET'])
+def comentarios():
+    return render_template('comentarios.html')
+
+#Acá se deberia guardar los datos del formulario
+@app.route('/procesar_comentario', methods=['POST'])
+def procesar_comentario():
+    """Recibe los datos del formulario de comentarios y los procesa (simula envío)."""
+    
+    # Obtener los datos del formulario (Método POST)
+    nombre = request.form.get('nombre_cliente')
+    contacto = request.form.get('contacto_cliente')
+    reserva = request.form.get('numero_reserva')
+    puntuacion = request.form.get('puntuacion')
+    comentario = request.form.get('comentario_texto')
+    sugerencia = request.form.get('sugerencia_texto')
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(port= 5002 , debug=True)
