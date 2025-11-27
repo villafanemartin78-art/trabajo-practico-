@@ -413,7 +413,7 @@ def enviar_mail_reserva(id_reserva):
 
 
 
-@app.route('/api/reservas/cancelar/<int:id_reserva>', methods=['POST'])
+@app.route('/api/reservas/cancelar/<int:id_reserva>', methods=['PATCH'])
 def cancelar_reserva(id_reserva):
 
     conn = get_conexion()
@@ -607,7 +607,7 @@ def crear_reserva_con_experiencias():
     except Exception as e:
         return jsonify({"success": False, "error": f"Error del servidor: {e}"}), 500
 
-@app.route('/api/reservas/pagar/<int:id_reserva>', methods=['POST'])
+@app.route('/api/reservas/pagar/<int:id_reserva>', methods=['PATCH'])
 def pagar_reserva(id_reserva):
     conn = get_conexion()
     cursor = conn.cursor(dictionary=True)
@@ -624,6 +624,7 @@ def pagar_reserva(id_reserva):
 if __name__ == '__main__':
 
     app.run(port=5003, debug=True)
+
 
 
 
