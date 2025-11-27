@@ -241,14 +241,39 @@ def comentarios():
 def procesar_comentario():
     """Recibe los datos del formulario de comentarios y los procesa (simula envío)."""
     
-    # Obtener los datos del formulario (Método POST)
     nombre = request.form.get('nombre_cliente')
+    cabanias = request.form.get('cabanias')
     contacto = request.form.get('contacto_cliente')
     reserva = request.form.get('numero_reserva')
     puntuacion = request.form.get('puntuacion')
     comentario = request.form.get('comentario_texto')
     sugerencia = request.form.get('sugerencia_texto')
-    return redirect(url_for('index'))
+    
+    # Creo un diccionario para guardar los datos
+    opiniones_data = {
+        'nombre': nombre,
+        'cabanias': cabanias,
+        'contacto': contacto,
+        'reserva': reserva,
+        'puntuacion': puntuacion,
+        'comentario': comentario,
+        'sugerencia': sugerencia
+    }
+
+    try:
+        response = request.post(
+            "http://localhost:5003/api/comentarios",
+            json=opiniones_data,
+            headers={'Content-Type': 'application/json'}
+        )
+    
+        if response.status_code == 201:
+            return redirect(url_for('index '))
+        else:
+            return "Error al enviar el comentario.", 400
+    
+    except requests.exceptions.RequestException:
+        return "Error de conexión con el backend.", 500
 
 if __name__ == '__main__':
     app.run(port= 5002 , debug=True)
