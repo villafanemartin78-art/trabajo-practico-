@@ -3,7 +3,24 @@
 echo "Acordar que para iniciarlo, antes de debe dar los permisos asi: 'chmod +x iniciar_servidores.sh'"
 
 # Este script inicia los servidores de Frontend y Backend en segundo plano.
+echo "Intentando activar entorno virtual..."
 
+# Intentar activar venv
+if [ -f "venv/Scripts/activate" ]; then
+    . venv/Scripts/activate
+    echo "Entorno venv activado."
+    USE_PIPENV=0
+else
+    echo "No se encontró venv. Probando con pipenv..."
+    USE_PIPENV=1
+fi
+
+echo "Instalando dependencias..."
+if [ "$USE_PIPENV" -eq 1 ]; then
+    pipenv install
+else
+    pip install -r requirements.txt
+fi
 # --- 1. Iniciando SERVIDOR BACKEND (API - Puerto 5003) ---
 # El '&' al final pone el proceso en segundo plano.
 python3 backend/app_back.py & 
